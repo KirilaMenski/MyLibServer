@@ -64,8 +64,8 @@ public class BookDAOImpl implements BookDAO {
 	@Override
 	public List<Book> getLastAdded() throws SQLException {
 		List<Book> allBooks = getAllBook();
-		List<Book> lastBooks = currentSession().createQuery("FROM Book")
-				.setFirstResult(allBooks.size() - LAST_BOOKS).setMaxResults(LAST_BOOKS).list();
+		List<Book> lastBooks = currentSession().createQuery("FROM Book").setFirstResult(allBooks.size() - LAST_BOOKS)
+				.setMaxResults(LAST_BOOKS).list();
 		return lastBooks;
 	}
 
@@ -85,8 +85,10 @@ public class BookDAOImpl implements BookDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Book> getBookByAuthorId(long authorId) throws SQLException {
-		List<Book> book = currentSession().createQuery("SELECT b FROM Book b WHERE b.author_id =:author_id")
-				.setParameter("author_id", authorId).list();
+		List<Book> book = currentSession()
+				.createQuery(
+						"SELECT b FROM Book b WHERE b.author_id =:author_id AND b.hasSynchronized =:has_synchronized")
+				.setParameter("author_id", authorId).setParameter("has_synchronized", 0).list();
 		return book;
 	}
 

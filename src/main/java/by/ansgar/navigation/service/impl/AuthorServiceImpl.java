@@ -66,6 +66,12 @@ public class AuthorServiceImpl implements AuthorService{
 		return lastAuthor;
 	}
 
+	@Transactional
+	public List<Author> getUnSynchAuthors() throws SQLException {
+		List<Author> authos = authorDAO.getUnSynchAuthors();
+		return authos;
+	}
+
 	
 
 }

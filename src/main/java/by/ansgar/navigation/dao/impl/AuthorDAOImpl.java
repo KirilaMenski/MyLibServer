@@ -37,10 +37,10 @@ public class AuthorDAOImpl implements AuthorDAO {
 		currentSession().delete(author);
 
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Author> getAllAuthors() throws SQLException {
-		@SuppressWarnings("unchecked")
 		List<Author> allAuthors = currentSession().createQuery("FROM Author")
 				.list();
 		return allAuthors;
@@ -86,6 +86,14 @@ public class AuthorDAOImpl implements AuthorDAO {
 	public Session currentSession() {
 		Session currentSession = sessionFactory.getCurrentSession();
 		return currentSession;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Author> getUnSynchAuthors() throws SQLException {
+		List<Author> allAuthors = currentSession().createQuery("FROM a Author WHERE a.hasSynchronized = :has_synchronized")
+				.setParameter("has_synchronized", 0).list();
+		return allAuthors;
 	}
 
 }

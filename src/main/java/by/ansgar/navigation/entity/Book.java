@@ -37,13 +37,16 @@ public class Book {
 	private String series;
 	@Column(name = "seriesNum")
 	private int seriesNum;
+	@Column(name="has_synchronized")
+	private int hasSynchronized;
 
 	public Book() {
 
 	}
 
 	public Book(long id, String image, String title, String description, int rating, String author, long author_id,
-			int status, int inList, String genre, String series, int seriesNum) {
+			int status, int inList, String genre, String series, int seriesNum, int hasSynchronized) {
+		super();
 		this.id = id;
 		this.image = image;
 		this.title = title;
@@ -56,38 +59,7 @@ public class Book {
 		this.genre = genre;
 		this.series = series;
 		this.seriesNum = seriesNum;
-	}
-
-	public String getSeries() {
-		return series;
-	}
-
-	public void setSeries(String series) {
-		this.series = series;
-	}
-
-	public int getSeriesNum() {
-		return seriesNum;
-	}
-
-	public void setSeriesNum(int seriesNum) {
-		this.seriesNum = seriesNum;
-	}
-
-	public String getGenre() {
-		return genre;
-	}
-
-	public void setGenre(String genre) {
-		this.genre = genre;
-	}
-
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
+		this.hasSynchronized = hasSynchronized;
 	}
 
 	public long getId() {
@@ -114,16 +86,16 @@ public class Book {
 		this.title = title;
 	}
 
-	public int getRating() {
-		return rating;
-	}
-
 	public String getDescription() {
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public int getRating() {
+		return rating;
 	}
 
 	public void setRating(int rating) {
@@ -146,6 +118,14 @@ public class Book {
 		this.author_id = author_id;
 	}
 
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 	public int getInList() {
 		return inList;
 	}
@@ -153,5 +133,39 @@ public class Book {
 	public void setInList(int inList) {
 		this.inList = inList;
 	}
+
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
+
+	public String getSeries() {
+		return series;
+	}
+
+	public void setSeries(String series) {
+		this.series = series;
+	}
+
+	public int getSeriesNum() {
+		return seriesNum;
+	}
+
+	public void setSeriesNum(int seriesNum) {
+		this.seriesNum = seriesNum;
+	}
+
+	public int getHasSynchronized() {
+		return hasSynchronized;
+	}
+
+	public void setHasSynchronized(int hasSynchronized) {
+		this.hasSynchronized = hasSynchronized;
+	}
+
+	
 
 }

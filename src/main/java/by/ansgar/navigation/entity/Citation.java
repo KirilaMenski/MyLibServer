@@ -29,12 +29,15 @@ public class Citation {
 	private long book_id;
 	@Column(name="liked")
 	private int liked;
+	@Column(name="has_synchronized")
+	private int hasSynchronized;
 	
 	public Citation() {
 
 	}
 
-	public Citation(long id, String citation, String date, String author, int author_id, String book, long book_id, int liked) {
+	public Citation(long id, String citation, String date, String author, int author_id, String book, long book_id,
+			int liked, int hasSynchronized) {
 		super();
 		this.id = id;
 		this.citation = citation;
@@ -44,22 +47,7 @@ public class Citation {
 		this.book = book;
 		this.book_id = book_id;
 		this.liked = liked;
-	}
-
-	public int getAuthor_id() {
-		return author_id;
-	}
-
-	public void setAuthor_id(int author_id) {
-		this.author_id = author_id;
-	}
-
-	public long getBook_id() {
-		return book_id;
-	}
-
-	public void setBook_id(long book_id) {
-		this.book_id = book_id;
+		this.hasSynchronized = hasSynchronized;
 	}
 
 	public long getId() {
@@ -94,12 +82,28 @@ public class Citation {
 		this.author = author;
 	}
 
+	public int getAuthor_id() {
+		return author_id;
+	}
+
+	public void setAuthor_id(int author_id) {
+		this.author_id = author_id;
+	}
+
 	public String getBook() {
 		return book;
 	}
 
 	public void setBook(String book) {
 		this.book = book;
+	}
+
+	public long getBook_id() {
+		return book_id;
+	}
+
+	public void setBook_id(long book_id) {
+		this.book_id = book_id;
 	}
 
 	public int getLiked() {
@@ -110,4 +114,13 @@ public class Citation {
 		this.liked = liked;
 	}
 
+	public int getHasSynchronized() {
+		return hasSynchronized;
+	}
+
+	public void setHasSynchronized(int hasSynchronized) {
+		this.hasSynchronized = hasSynchronized;
+	}
+
+	
 }

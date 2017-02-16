@@ -15,6 +15,8 @@ public interface AuthorDAO {
 	
 	public List<Author> getAllAuthors () throws SQLException;
 	
+	public List<Author> getUnSynchAuthors () throws SQLException;
+	
 	public List<Author> getAllAuthors (int page) throws SQLException;
 	
 	public List<Author> getLastAdded () throws SQLException;

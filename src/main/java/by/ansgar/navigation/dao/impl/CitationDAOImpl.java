@@ -42,28 +42,23 @@ public class CitationDAOImpl implements CitationDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Citation> getAllCitation() throws SQLException {
-		List<Citation> allCitation = currentSession()
-				.createQuery("FROM Citation").list();
+		List<Citation> allCitation = currentSession().createQuery("FROM Citation").list();
 		return allCitation;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Citation> getAllCitation(int page) throws SQLException {
-		List<Citation> allCitation = currentSession()
-				.createQuery("FROM Citation")
-				.setFirstResult(page * MAX_RES - MAX_RES).setMaxResults(MAX_RES)
-				.list();
+		List<Citation> allCitation = currentSession().createQuery("FROM Citation")
+				.setFirstResult(page * MAX_RES - MAX_RES).setMaxResults(MAX_RES).list();
 		return allCitation;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Citation> getLikedCitation(int page) throws SQLException {
-		List<Citation> allCitation = currentSession()
-				.createQuery("FROM Citation WHERE liked = 1")
-				.setFirstResult(page * MAX_RES - MAX_RES).setMaxResults(MAX_RES)
-				.list();
+		List<Citation> allCitation = currentSession().createQuery("FROM Citation WHERE liked = 1")
+				.setFirstResult(page * MAX_RES - MAX_RES).setMaxResults(MAX_RES).list();
 		return allCitation;
 	}
 
@@ -71,10 +66,8 @@ public class CitationDAOImpl implements CitationDAO {
 	@Override
 	public List<Citation> getLastAdded() throws SQLException {
 		List<Citation> allCitation = getAllCitation();
-		List<Citation> lastCitation = currentSession()
-				.createQuery("FROM Citation WHERE liked = 1")
-				.setFirstResult(allCitation.size() - LAST_CIT)
-				.setMaxResults(LAST_CIT).list();
+		List<Citation> lastCitation = currentSession().createQuery("FROM Citation WHERE liked = 1")
+				.setFirstResult(allCitation.size() - LAST_CIT).setMaxResults(LAST_CIT).list();
 		return lastCitation;
 	}
 
@@ -92,8 +85,10 @@ public class CitationDAOImpl implements CitationDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Citation> getCitationByBookId(long bookId) throws SQLException {
-		List<Citation> citation = currentSession().createQuery("SELECT c FROM Citation c WHERE c.book_id =:book_id")
-				.setParameter("book_id", bookId).list();
+		List<Citation> citation = currentSession()
+				.createQuery(
+						"SELECT c FROM Citation c WHERE c.book_id =:book_id AND c.hasSynchronized =:has_synchronized")
+				.setParameter("book_id", bookId).setParameter("has_synchronized", 0).list();
 		return citation;
 	}
 
