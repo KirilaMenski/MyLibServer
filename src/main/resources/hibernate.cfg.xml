@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC 
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+
+		<property name="dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql://localhost:3306/navigation</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">yj55</property>
+
+		<mapping class="by.ansgar.navigation.entity.Author" />
+		<mapping class="by.ansgar.navigation.entity.Book" />
+		<mapping class="by.ansgar.navigation.entity.Citation" />
+		<mapping class="by.ansgar.navigation.entity.LinkAuthorBooks" />
+		<mapping class="by.ansgar.navigation.entity.LinkBookCitations" />
+
+	</session-factory>
+</hibernate-configuration>

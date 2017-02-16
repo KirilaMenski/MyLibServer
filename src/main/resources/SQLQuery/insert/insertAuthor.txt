@@ -1,0 +1,46 @@
+INSERT INTO authors (firstname, lastname) value('Дэн','Симмонс');
+INSERT INTO authors (firstname, lastname) value('Урсула','ле Гуин');
+INSERT INTO authors (firstname, lastname) value('Харуки','Мураками');
+INSERT INTO authors (firstname, lastname) value('Роберт','Хайнлайн');
+INSERT INTO authors (firstname, lastname) value('Дуглас','Адамс');
+INSERT INTO authors (firstname, lastname) value('Джордж Р.Р.','Толкиен');
+INSERT INTO authors (firstname, lastname) value('Эрих','Фромм');
+INSERT INTO authors (firstname, lastname) value('Личия','Троиси');
+INSERT INTO authors (firstname, lastname) value('Анджэй','Сапковский');
+INSERT INTO authors (firstname, lastname) value('Виктор','Пелевин');
+INSERT INTO authors (firstname, lastname) value('Джо','Холдэман');
+INSERT INTO authors (firstname, lastname) value('Диана','Уин Джонс');
+INSERT INTO authors (firstname, lastname) value('Дэниел','Киз');
+INSERT INTO authors (firstname, lastname) value('Лорен','Оливер');
+INSERT INTO authors (firstname, lastname) value('Оскар','Уайлд');
+INSERT INTO authors (firstname, lastname) value('Лев','Толстой');
+INSERT INTO authors (firstname, lastname) value('Генри','Торро');
+INSERT INTO authors (firstname, lastname) value('Рей','Олдридж');
+INSERT INTO authors (firstname, lastname) value('Терри','Пратчет');
+INSERT INTO authors (firstname, lastname) value('Айзек','Азимов');
+INSERT INTO authors (firstname, lastname) value('Иогна','Гёте');
+INSERT INTO authors (firstname, lastname) value('Антуан','де сент Экзюпери');
+INSERT INTO authors (firstname, lastname) value('Олдос','Хаксли');
+INSERT INTO authors (firstname, lastname) value('Пил','Норман');
+INSERT INTO authors (firstname, lastname) value('Кен','Робинсон');
+INSERT INTO authors (firstname, lastname) value('Уильям','Шекспир');
+INSERT INTO authors (firstname, lastname) value('Александр','Булгаков');
+INSERT INTO authors (firstname, lastname) value('Станислав','Лем');
+INSERT INTO authors (firstname, lastname) value('Брайан','Грин');
+INSERT INTO authors (firstname, lastname) value('Глен','Бек');
+INSERT INTO authors (firstname, lastname) value('Томас','Гарди');
+INSERT INTO authors (firstname, lastname) value('ДжоДжо','Моес');
+INSERT INTO authors (firstname, lastname) value('Клифорд','Саймак');
+INSERT INTO authors (firstname, lastname) value('Рей','Бредбери');
+INSERT INTO authors (firstname, lastname) value('Кадзуо','Исигура');
+INSERT INTO authors (firstname, lastname) value('Никола','Тесла');
+INSERT INTO authors (firstname, lastname) value('Филип','Дик');
+INSERT INTO authors (firstname, lastname) value('Стивен','Хоукинг');
+INSERT INTO authors (firstname, lastname) value('Джордж','Оруэл');
+INSERT INTO authors (firstname, lastname) value('Льюис','Кэрол');
+INSERT INTO authors (firstname, lastname) value('Дмитрий','Глуховский');
+INSERT INTO authors (firstname, lastname) value('Джуан','Роулинг');
+INSERT INTO authors (firstname, lastname) value('Дейл', 'Карнеги');
+
+
+
