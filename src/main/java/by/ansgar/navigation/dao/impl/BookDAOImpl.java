@@ -82,4 +82,12 @@ public class BookDAOImpl implements BookDAO {
 		return book;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Book> getBookByAuthorId(long authorId) throws SQLException {
+		List<Book> book = currentSession().createQuery("SELECT b FROM Book b WHERE b.author_id =:author_id")
+				.setParameter("author_id", authorId).list();
+		return book;
+	}
+
 }

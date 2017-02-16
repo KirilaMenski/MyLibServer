@@ -15,6 +15,8 @@ public interface CitationDAO {
 	
 	public List<Citation> getAllCitation () throws SQLException;
 	
+	public List<Citation> getCitationByBookId(long bookId) throws SQLException;
+	
 	public List<Citation> getAllCitation (int page) throws SQLException;
 	
 	public List<Citation> getLikedCitation (int page) throws SQLException;

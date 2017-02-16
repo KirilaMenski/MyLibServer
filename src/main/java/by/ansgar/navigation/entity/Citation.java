@@ -26,7 +26,7 @@ public class Citation {
 	@Column(name="book")
 	private String book;
 	@Column(name="book_id")
-	private int book_id;
+	private long book_id;
 	@Column(name="liked")
 	private int liked;
 	
@@ -34,7 +34,7 @@ public class Citation {
 
 	}
 
-	public Citation(long id, String citation, String date, String author, int author_id, String book, int book_id, int liked) {
+	public Citation(long id, String citation, String date, String author, int author_id, String book, long book_id, int liked) {
 		super();
 		this.id = id;
 		this.citation = citation;
@@ -54,11 +54,11 @@ public class Citation {
 		this.author_id = author_id;
 	}
 
-	public int getBook_id() {
+	public long getBook_id() {
 		return book_id;
 	}
 
-	public void setBook_id(int book_id) {
+	public void setBook_id(long book_id) {
 		this.book_id = book_id;
 	}
 

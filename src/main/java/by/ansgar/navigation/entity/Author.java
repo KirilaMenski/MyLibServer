@@ -23,17 +23,20 @@ public class Author {
 	private String lastname;
 	@Column(name = "biography")
 	private String biography;
+	@Column(name="date")
+	private String date;
 
 	public Author() {
 
 	}
 
-	public Author(long id, String image, String firstname, String lastname, String biography) {
+	public Author(long id, String image, String firstname, String lastname, String biography, String date) {
 		this.id = id;
 		this.image = image;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.biography = biography;
+		this.date = date;
 	}
 
 	public long getId() {
@@ -74,6 +77,14 @@ public class Author {
 
 	public void setBiography(String biography) {
 		this.biography = biography;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 }

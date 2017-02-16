@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import by.ansgar.navigation.dao.CitationDAO;
+import by.ansgar.navigation.entity.Book;
 import by.ansgar.navigation.entity.Citation;
 
 @Repository
@@ -85,6 +86,14 @@ public class CitationDAOImpl implements CitationDAO {
 	@Override
 	public Citation getCitationById(long id) throws SQLException {
 		Citation citation = (Citation) currentSession().get(Citation.class, id);
+		return citation;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Citation> getCitationByBookId(long bookId) throws SQLException {
+		List<Citation> citation = currentSession().createQuery("SELECT c FROM Citation c WHERE c.book_id =:book_id")
+				.setParameter("book_id", bookId).list();
 		return citation;
 	}
 

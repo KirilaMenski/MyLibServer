@@ -20,6 +20,8 @@ public interface CitationService {
 	public List<Citation> getLikedCitation (int page) throws SQLException;
 
 	public List<Citation> getLastAdded() throws SQLException;
+	
+	public List<Citation> getCitationByBookId(long bookId) throws SQLException;
 
 	public Citation getCitationById(long id) throws SQLException;
 

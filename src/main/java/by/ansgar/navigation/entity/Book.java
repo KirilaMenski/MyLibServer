@@ -27,17 +27,23 @@ public class Book {
 	private String author;
 	@Column(name = "author_id")
 	private long author_id;
-	@Column(name="status")
+	@Column(name = "status")
 	private int status;
-	@Column(name="in_list")
+	@Column(name = "in_list")
 	private int inList;
+	@Column(name = "genre")
+	private String genre;
+	@Column(name = "series")
+	private String series;
+	@Column(name = "seriesNum")
+	private int seriesNum;
 
 	public Book() {
 
 	}
 
-	public Book(long id, String image, String title, String description,
-			int rating, String author, long author_id, int status, int inList) {
+	public Book(long id, String image, String title, String description, int rating, String author, long author_id,
+			int status, int inList, String genre, String series, int seriesNum) {
 		this.id = id;
 		this.image = image;
 		this.title = title;
@@ -47,6 +53,33 @@ public class Book {
 		this.author_id = author_id;
 		this.status = status;
 		this.inList = inList;
+		this.genre = genre;
+		this.series = series;
+		this.seriesNum = seriesNum;
+	}
+
+	public String getSeries() {
+		return series;
+	}
+
+	public void setSeries(String series) {
+		this.series = series;
+	}
+
+	public int getSeriesNum() {
+		return seriesNum;
+	}
+
+	public void setSeriesNum(int seriesNum) {
+		this.seriesNum = seriesNum;
+	}
+
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setGenre(String genre) {
+		this.genre = genre;
 	}
 
 	public int getStatus() {

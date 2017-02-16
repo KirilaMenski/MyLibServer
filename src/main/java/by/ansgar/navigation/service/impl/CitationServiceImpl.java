@@ -66,4 +66,10 @@ public class CitationServiceImpl implements CitationService {
 		return lastCitations;
 	}
 
+	@Transactional
+	public List<Citation> getCitationByBookId(long bookId) throws SQLException {
+		List<Citation> citations = citationDAO.getCitationByBookId(bookId);
+		return citations;
+	}
+
 }

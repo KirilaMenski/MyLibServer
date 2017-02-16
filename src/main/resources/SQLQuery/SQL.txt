@@ -1,9 +1,9 @@
 CREATE DATABASE navigation DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 CREATE TABLE authors (id bigint(255) NOT NULL AUTO_INCREMENT PRIMARY KEY, image varchar(255), firstname VARCHAR(255),
- lastname VARCHAR(255), biography TEXT);
-CREATE TABLE books (id bigint(255) NOT NULL AUTO_INCREMENT PRIMARY KEY, image VARCHAR(255), title VARCHAR(255),
- description TEXT, rating int(10), date VARCHAR(255), author VARCHAR(255), author_id int(10));
+ lastname VARCHAR(255), biography TEXT, date VARCHAR(255));
+CREATE TABLE books (id bigint(255) NOT NULL AUTO_INCREMENT PRIMARY KEY, image VARCHAR(255), title VARCHAR(255), genre VARCHAR(255),
+series VARCHAR(255), seriesNum int(10) DEFAULT 0, description TEXT, rating int(10), date VARCHAR(255), author VARCHAR(255), author_id int(10));
 CREATE TABLE citations (id bigint(255) NOT NULL AUTO_INCREMENT PRIMARY KEY, citation TEXT,
  date VARCHAR(255), author VARCHAR(255), author_id int(10), book VARCHAR(255), book_id int(10));
 CREATE TABLE reading_list(id bigint(255) NOT NULL AUTO_INCREMENT PRIMARY KEY, book_title VARCHAR(255),
@@ -27,3 +27,9 @@ ALTER TABLE books ADD COLUMN author_id int (10) AFTER author;
 ALTER TABLE books ADD COLUMN status int (10) default 0;
 ALTER TABLE books ADD COLUMN in_list int (10) default 0;
 ALTER TABLE citations ADD COLUMN liked int (10) default 0;
+
+ALTER TABLE navigation.books ADD COLUMN genre VARCHAR (255) AFTER title;
+ALTER TABLE navigation.books ADD COLUMN series VARCHAR (255) AFTER genre;
+ALTER TABLE navigation.books ADD COLUMN seriesNum VARCHAR (255) AFTER series;
+
+ALTER TABLE navigation.authos ADD COLUMN date VARCHAR (255) AFTER biography;
