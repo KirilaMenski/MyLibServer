@@ -89,8 +89,6 @@ public class ApiController {
 					book.setHasSynchronized(1);
 					book.setRating(allBooks.get(j).getRating());
 
-					System.out.println("id: " + book.getId());
-
 					List<Citation> citationByBook = citationService.getCitationByBookId((long) book.getId());
 					List<CitationResponse> citations = new ArrayList<>();
 					for (int z = 0; z < citationByBook.size(); z++) {
