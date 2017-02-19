@@ -11,6 +11,10 @@ import java.util.List;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +26,7 @@ import by.ansgar.navigation.entity.Citation;
 import by.ansgar.navigation.entity.response.AuthorResponse;
 import by.ansgar.navigation.entity.response.BookResponse;
 import by.ansgar.navigation.entity.response.CitationResponse;
+import by.ansgar.navigation.entity.response.ServerResponse;
 import by.ansgar.navigation.entity.response.User;
 import by.ansgar.navigation.service.AuthorService;
 import by.ansgar.navigation.service.BookService;
@@ -32,6 +37,7 @@ import by.ansgar.navigation.service.LinkBookCitationsService;
 @RestController
 public class ApiController {
 
+	private static final String PATH = "/api/";
 	private static final String DEFAULT_IMAGE = "/home/kirila/MyProgramms/BookNavigation/image/defaultImage.jpg";
 
 	@Autowired
@@ -41,9 +47,16 @@ public class ApiController {
 	@Autowired
 	private CitationService citationService;
 
-	@RequestMapping(value = "/api/getUserData", method = RequestMethod.GET)
+	@RequestMapping(value = PATH + "save", produces="application/json;charset=UTF-8", method = RequestMethod.POST)
 	@ResponseBody
-	public User getUserData(Model model) throws IOException {
+	public ServerResponse setUserData(@RequestBody User user) {
+		System.out.println("Set Data!!! " + user.getFirstName());
+		return new ServerResponse("Server Response");
+	}
+
+	@RequestMapping(value = PATH + "{userId}/synchronize", method = RequestMethod.GET)
+	@ResponseBody
+	public User getUserData(Model model, @PathVariable long userId) throws IOException {
 		return returnUserData();
 	}
 
@@ -143,7 +156,7 @@ public class ApiController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		return Base64.encodeBase64String(bytes);
 	}
 
