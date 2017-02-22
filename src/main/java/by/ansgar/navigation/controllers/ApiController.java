@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 import by.ansgar.navigation.entity.Author;
 import by.ansgar.navigation.entity.Book;
 import by.ansgar.navigation.entity.Citation;
+import by.ansgar.navigation.entity.LinkAuthorBooks;
+import by.ansgar.navigation.entity.LinkBookCitations;
 import by.ansgar.navigation.entity.response.AuthorResponse;
 import by.ansgar.navigation.entity.response.BookResponse;
 import by.ansgar.navigation.entity.response.CitationResponse;
@@ -33,6 +35,7 @@ import by.ansgar.navigation.service.BookService;
 import by.ansgar.navigation.service.CitationService;
 import by.ansgar.navigation.service.LinkAuthorBooksService;
 import by.ansgar.navigation.service.LinkBookCitationsService;
+import by.ansgar.navigation.util.Upload;
 
 @RestController
 public class ApiController {
@@ -46,12 +49,71 @@ public class ApiController {
 	private BookService bookService;
 	@Autowired
 	private CitationService citationService;
+	@Autowired
+	private LinkBookCitationsService linkBC;
+	@Autowired
+	private LinkAuthorBooksService linkAB;
 
-	@RequestMapping(value = PATH + "save", produces="application/json;charset=UTF-8", method = RequestMethod.POST)
+	@RequestMapping(value = PATH + "save", method = RequestMethod.POST)
 	@ResponseBody
 	public ServerResponse setUserData(@RequestBody User user) {
-		System.out.println("Set Data!!! " + user.getFirstName());
-		return new ServerResponse("Server Response");
+		if(user == null) return new ServerResponse("Use not found");
+		try {
+			List<AuthorResponse> authorResponse = user.getAuthors();
+			for (int i = 0; i < authorResponse.size(); i++) {
+				Author author = new Author();
+				String authorName = authorResponse.get(i).getFirstName() + " " + authorResponse.get(i).getLastName();
+				author.setFirstname(authorResponse.get(i).getFirstName());
+				author.setLastname(authorResponse.get(i).getLastName());
+				author.setBiography(authorResponse.get(i).getBiography());
+				author.setDate(authorResponse.get(i).getDate());
+				author.setHasSynchronized(1);
+				author.setImage(Upload.convertAndSaveImage(authorResponse.get(i).getCoverBytes(),
+						authorResponse.get(i).getFirstName() + authorResponse.get(i).getLastName(), "authors"));
+				authorService.addAuthor(author);
+				List<BookResponse> bookResponse = authorResponse.get(i).getBooks();
+				for (int j = 0; j < bookResponse.size(); j++) {
+					long authorId = authorService.getAllAuthors().get(authorService.getAllAuthors().size() - 1).getId();
+					String bookTitle = bookResponse.get(j).getTitle();
+					Book book = new Book();
+					book.setAuthor_id(authorId);
+					book.setAuthor(authorName);
+					book.setTitle(bookTitle);
+					book.setDescription(bookResponse.get(j).getDescription());
+					book.setGenre(bookResponse.get(j).getGenre());
+					book.setSeries(bookResponse.get(j).getSeries());
+					book.setSeriesNum(bookResponse.get(j).getNumSeries());
+					book.setInList(bookResponse.get(j).getInList());
+					book.setRating(bookResponse.get(j).getRating());
+					book.setHasSynchronized(1);
+					book.setStatus(bookResponse.get(j).getWasRead());
+					book.setImage(Upload.convertAndSaveImage(bookResponse.get(j).getCoverBytes(),
+							bookTitle, "books"));
+					bookService.addBook(book);
+					addAuthorBooksLinks(authorId);
+					List<CitationResponse> citationResponse = bookResponse.get(i).getCitations();
+					for (int z = 0; z < citationResponse.size(); z++) {
+						long bookId = bookService.getAllBook().get(bookService.getAllBook().size() - 1).getId();
+						Citation citation = new Citation();
+						citation.setAuthor(authorName);
+						citation.setAuthor_id((int)authorId);
+						citation.setBook(bookTitle);
+						citation.setBook_id(bookId);
+						citation.setHasSynchronized(1);
+						citation.setCitation(citationResponse.get(z).getCitation());
+						citation.setDate(citationResponse.get(z).getDate());
+						citation.setLiked(citationResponse.get(z).getLiked());
+						citationService.addCitation(citation);
+						addBookCitationsLink(bookId);
+					}
+				}
+
+			}
+			return new ServerResponse("The data has been successfully synchronized!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return new ServerResponse("Error! " + e);
+		}
 	}
 
 	@RequestMapping(value = PATH + "{userId}/synchronize", method = RequestMethod.GET)
@@ -158,6 +220,23 @@ public class ApiController {
 		}
 
 		return Base64.encodeBase64String(bytes);
+	}
+
+	private void addAuthorBooksLinks(long author_id) throws SQLException {
+		LinkAuthorBooks link = new LinkAuthorBooks();
+		List<Book> books = bookService.getAllBook();
+		link.setAuthor(authorService.getAuthorById(author_id));
+		link.setBook(bookService.getBookById(books.get(books.size() - 1).getId()));
+		linkAB.addLink(link);
+	}
+
+	private void addBookCitationsLink(long book_id) throws SQLException {
+		LinkBookCitations link = new LinkBookCitations();
+		List<Citation> citations = citationService.getAllCitation();
+		link.setBook(bookService.getBookById(book_id));
+		link.setCitation(citationService.getCitationById(citations.get(citations.size() - 1).getId()));
+		linkBC.addLink(link);
+
 	}
 
 }

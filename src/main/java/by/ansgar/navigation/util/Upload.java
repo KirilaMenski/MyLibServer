@@ -1,7 +1,12 @@
 package by.ansgar.navigation.util;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.xml.bind.DatatypeConverter;
 
 import org.apache.log4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,9 +27,9 @@ public class Upload {
 		File dest = new File(filePath);
 
 		try {
-				multipartFile.transferTo(dest);
-				path = dest.toString();
-			
+			multipartFile.transferTo(dest);
+			path = dest.toString();
+
 		} catch (IllegalStateException e) {
 			LOG.warn(e);
 		} catch (IOException e) {
@@ -32,4 +37,18 @@ public class Upload {
 			LOG.warn(e);
 		}
 	}
+
+	public static String convertAndSaveImage(String bytes, String fileName, String folder) {
+		String imagePath = "/home/kirila/MyProgramms/BookNavigation/image/" + folder + "/" + fileName + ".png";
+		byte[] imageBytes = DatatypeConverter.parseBase64Binary(bytes);
+		try {
+			BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageBytes));
+			ImageIO.write(img, "png", new File(imagePath));
+		} catch (IOException e) {
+			imagePath = "/home/kirila/MyProgramms/BookNavigation/image/defaultImage.jpg";
+			e.printStackTrace();
+		}
+		return imagePath;
+	}
+
 }
