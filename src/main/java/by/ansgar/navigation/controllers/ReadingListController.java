@@ -74,9 +74,9 @@ public class ReadingListController {
 	}
 
 	@RequestMapping(value = "/changeStatus")
-	public @ResponseBody String doStatus(@RequestParam int id,
-			@RequestParam String title, @RequestParam int book_id,
-			@RequestParam String author, @RequestParam int author_id,
+	public @ResponseBody String doStatus(@RequestParam long id,
+			@RequestParam String title, @RequestParam long book_id,
+			@RequestParam String author, @RequestParam long author_id,
 			@RequestParam String status, @RequestParam int pick,
 			@ModelAttribute ReadingList booksInList) {
 		String currentStatus = "Status changed!";

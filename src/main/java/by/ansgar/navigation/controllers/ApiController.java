@@ -96,7 +96,7 @@ public class ApiController {
 						long bookId = bookService.getAllBook().get(bookService.getAllBook().size() - 1).getId();
 						Citation citation = new Citation();
 						citation.setAuthor(authorName);
-						citation.setAuthor_id((int)authorId);
+						citation.setAuthor_id(authorId);
 						citation.setBook(bookTitle);
 						citation.setBook_id(bookId);
 						citation.setHasSynchronized(1);

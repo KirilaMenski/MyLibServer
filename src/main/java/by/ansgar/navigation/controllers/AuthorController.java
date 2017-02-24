@@ -119,7 +119,7 @@ public class AuthorController {
 	}
 
 	@RequestMapping(value = "/delete_author-{id}")
-	public ModelAndView deleteAuthor(@PathVariable int id, @ModelAttribute Author author) {
+	public ModelAndView deleteAuthor(@PathVariable long id, @ModelAttribute Author author) {
 		ModelAndView mav = new ModelAndView();
 		author = new Author();
 		author.setId(id);
@@ -134,7 +134,7 @@ public class AuthorController {
 
 	@RequestMapping(value = "/update_author-{id}", headers = "content-type=multipart/*", method = {
 			RequestMethod.POST })
-	public ModelAndView updateAuthor(@PathVariable int id, @ModelAttribute Author author,
+	public ModelAndView updateAuthor(@PathVariable long id, @ModelAttribute Author author,
 			@RequestParam(value = "file", required = false) MultipartFile multipartFile) {
 		ModelAndView mav = new ModelAndView();
 		Upload.doUpload(multipartFile, "authors");

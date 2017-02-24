@@ -5,7 +5,7 @@ import java.util.List;
 
 public class User implements Serializable{
 
-	private int id;
+	private long id;
 	private String firstName;
 	private String lastName;
 	private String coverBytes;
@@ -18,7 +18,7 @@ public class User implements Serializable{
 
 	}
 
-	public User(int id, String firstName, String lastName, String coverBytes, String email, String password,
+	public User(long id, String firstName, String lastName, String coverBytes, String email, String password,
 			int hasSynchronized, List<AuthorResponse> authors) {
 		super();
 		this.id = id;
@@ -31,11 +31,11 @@ public class User implements Serializable{
 		this.authors = authors;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
