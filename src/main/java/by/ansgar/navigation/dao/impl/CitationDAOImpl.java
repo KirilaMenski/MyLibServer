@@ -87,8 +87,18 @@ public class CitationDAOImpl implements CitationDAO {
 	public List<Citation> getCitationByBookId(long bookId) throws SQLException {
 		List<Citation> citation = currentSession()
 				.createQuery(
+						"SELECT c FROM Citation c WHERE c.book_id =:book_id")
+				.setParameter("book_id", bookId).list();
+		return citation;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Citation> getCitationByBookId(long bookId, int sync) throws SQLException {
+		List<Citation> citation = currentSession()
+				.createQuery(
 						"SELECT c FROM Citation c WHERE c.book_id =:book_id AND c.hasSynchronized =:has_synchronized")
-				.setParameter("book_id", bookId).setParameter("has_synchronized", 0).list();
+				.setParameter("book_id", bookId).setParameter("has_synchronized", sync).list();
 		return citation;
 	}
 

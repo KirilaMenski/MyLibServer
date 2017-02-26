@@ -19,6 +19,8 @@ public interface BookDAO {
 	
 	public List<Book> getAllBook(int page) throws SQLException;
 	
+	public List<Book> getBookByAuthorId(long id, int sync) throws SQLException;
+	
 	public List<Book> getBookByAuthorId(long id) throws SQLException;
 	
 	public List<Book> getLastAdded () throws SQLException;

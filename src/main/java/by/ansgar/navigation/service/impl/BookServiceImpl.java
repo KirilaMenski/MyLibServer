@@ -73,5 +73,11 @@ public class BookServiceImpl implements BookService {
 		return books;
 	}
 
+	@Transactional
+	public List<Book> getBookByAuthorId(long authorId, int sync) throws SQLException {
+		List<Book> books = bookDAO.getBookByAuthorId(authorId, sync);
+		return books;
+	}
+
 	
 }

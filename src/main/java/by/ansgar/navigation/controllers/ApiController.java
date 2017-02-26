@@ -146,7 +146,7 @@ public class ApiController {
 				author.setDate(allAuthors.get(i).getDate());
 				author.setHasSynchronized(1);
 
-				List<Book> allBooks = bookService.getBookByAuthorId(author.getId());
+				List<Book> allBooks = bookService.getBookByAuthorId(author.getId(), 0);
 				List<BookResponse> books = new ArrayList<>();
 
 				for (int j = 0; j < allBooks.size(); j++) {
@@ -164,7 +164,7 @@ public class ApiController {
 					book.setHasSynchronized(1);
 					book.setRating(allBooks.get(j).getRating());
 
-					List<Citation> citationByBook = citationService.getCitationByBookId((long) book.getId());
+					List<Citation> citationByBook = citationService.getCitationByBookId(book.getId(), 0);
 					List<CitationResponse> citations = new ArrayList<>();
 					for (int z = 0; z < citationByBook.size(); z++) {
 						CitationResponse citation = new CitationResponse();

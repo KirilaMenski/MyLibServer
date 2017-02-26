@@ -19,6 +19,8 @@ public interface BookService {
 	
 	public List<Book> getBookByAuthorId(long authorId) throws SQLException;
 	
+	public List<Book> getBookByAuthorId(long authorId, int sync) throws SQLException;
+	
 	public List<Book> getAllBook(int page) throws SQLException;
 	
 	public List<Book> getLastAdded () throws SQLException;

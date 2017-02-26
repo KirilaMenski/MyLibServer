@@ -89,14 +89,21 @@ public class AuthorController {
 		ModelAndView mav = new ModelAndView();
 		Author author = null;
 		List<LinkAuthorBooks> authorBooks = new ArrayList<LinkAuthorBooks>();
+		List<Book> books = new ArrayList<>();
 		author_id = id;
 		try {
 			author = authorServ.getAuthorById(id);
-			authorBooks = linkAB.getBooksByAuthorName(id);
+//			authorBooks = linkAB.getBooksByAuthorName(id);
+			books = bookSer.getBookByAuthorId(id);
+			for(int i = 0 ; i < books.size(); i++){
+				System.out.println("id: " + books.get(i).getAuthor_id());
+			}
 		} catch (SQLException e) {
 			LOG.error("Cannot view author by name", e);
 		}
-		mav.addObject("author_books", authorBooks);
+		
+//		mav.addObject("author_books", authorBooks);
+		mav.addObject("author_books", books);
 		mav.addObject("author", author);
 		mav.setViewName("view_author");
 		return mav;

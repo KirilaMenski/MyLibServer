@@ -72,4 +72,10 @@ public class CitationServiceImpl implements CitationService {
 		return citations;
 	}
 
+	@Transactional
+	public List<Citation> getCitationByBookId(long bookId, int sync) throws SQLException {
+		List<Citation> citations = citationDAO.getCitationByBookId(bookId, sync);
+		return citations;
+	}
+
 }

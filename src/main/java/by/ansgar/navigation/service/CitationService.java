@@ -22,6 +22,8 @@ public interface CitationService {
 	public List<Citation> getLastAdded() throws SQLException;
 	
 	public List<Citation> getCitationByBookId(long bookId) throws SQLException;
+	
+	public List<Citation> getCitationByBookId(long bookId, int sync) throws SQLException;
 
 	public Citation getCitationById(long id) throws SQLException;
 

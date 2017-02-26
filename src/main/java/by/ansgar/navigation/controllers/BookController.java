@@ -78,11 +78,13 @@ public class BookController {
 			@ModelAttribute LinkBookCitations link, BindingResult result) {
 		ModelAndView mav = new ModelAndView();
 		Book book = null;
-		List<LinkBookCitations> bookCit = new ArrayList<LinkBookCitations>();
+//		List<LinkBookCitations> bookCit = new ArrayList<LinkBookCitations>();
+		List<Citation> bookCit = new ArrayList<>();
 		book_id = id;
 		try {
 			book = bookService.getBookById(id);
-			bookCit = linkBC.getCitationFromBook(id);
+//			bookCit = linkBC.getCitationFromBook(id);
+			bookCit = citationService.getCitationByBookId(id);
 		} catch (SQLException e) {
 			LOG.error("Cannot show book!", e);
 		}
