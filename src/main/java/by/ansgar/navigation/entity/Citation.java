@@ -15,6 +15,8 @@ public class Citation {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private long id;
+	@Column(name = "uuid")
+	private String uuid;
 	@Column(name = "citation")
 	private String citation;
 	@Column(name = "date")
@@ -36,10 +38,11 @@ public class Citation {
 
 	}
 
-	public Citation(long id, String citation, String date, String author, long author_id, String book, long book_id,
+	public Citation(long id, String uuid, String citation, String date, String author, long author_id, String book, long book_id,
 			int liked, int hasSynchronized) {
 		super();
 		this.id = id;
+		this.uuid = uuid;
 		this.citation = citation;
 		this.date = date;
 		this.author = author;
@@ -60,6 +63,14 @@ public class Citation {
 
 	public String getCitation() {
 		return citation;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 
 	public void setCitation(String citation) {

@@ -3,6 +3,7 @@ package by.ansgar.navigation.entity.response;
 public class CitationResponse {
 	
 	private long id;
+	private String uuid;
 	private String citation;
 	private int liked;
 	private String date;
@@ -12,7 +13,7 @@ public class CitationResponse {
 		
 	}
 
-	public CitationResponse(long id, String citation, int liked, String date, int hasSynchronized) {
+	public CitationResponse(long id, String uuid, String citation, int liked, String date, int hasSynchronized) {
 		super();
 		this.id = id;
 		this.citation = citation;
@@ -27,6 +28,18 @@ public class CitationResponse {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
+	public int getHasSynchronized() {
+		return hasSynchronized;
 	}
 
 	public String getCitation() {

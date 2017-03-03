@@ -57,12 +57,13 @@ public class ApiController {
 	@RequestMapping(value = PATH + "save", method = RequestMethod.POST)
 	@ResponseBody
 	public ServerResponse setUserData(@RequestBody User user) {
-		if(user == null) return new ServerResponse("Use not found");
+		if(user == null) return new ServerResponse("User not found");
 		try {
 			List<AuthorResponse> authorResponse = user.getAuthors();
 			for (int i = 0; i < authorResponse.size(); i++) {
 				Author author = new Author();
 				String authorName = authorResponse.get(i).getFirstName() + " " + authorResponse.get(i).getLastName();
+				author.setUuid(authorResponse.get(i).getUuid());
 				author.setFirstname(authorResponse.get(i).getFirstName());
 				author.setLastname(authorResponse.get(i).getLastName());
 				author.setBiography(authorResponse.get(i).getBiography());
@@ -76,6 +77,7 @@ public class ApiController {
 					long authorId = authorService.getAllAuthors().get(authorService.getAllAuthors().size() - 1).getId();
 					String bookTitle = bookResponse.get(j).getTitle();
 					Book book = new Book();
+					book.setUuid(bookResponse.get(j).getUuid());
 					book.setAuthor_id(authorId);
 					book.setAuthor(authorName);
 					book.setTitle(bookTitle);
@@ -91,10 +93,11 @@ public class ApiController {
 							bookTitle, "books"));
 					bookService.addBook(book);
 					addAuthorBooksLinks(authorId);
-					List<CitationResponse> citationResponse = bookResponse.get(i).getCitations();
+					List<CitationResponse> citationResponse = bookResponse.get(j).getCitations();
 					for (int z = 0; z < citationResponse.size(); z++) {
 						long bookId = bookService.getAllBook().get(bookService.getAllBook().size() - 1).getId();
 						Citation citation = new Citation();
+						citation.setUuid(citationResponse.get(z).getUuid());
 						citation.setAuthor(authorName);
 						citation.setAuthor_id(authorId);
 						citation.setBook(bookTitle);
@@ -138,6 +141,7 @@ public class ApiController {
 			for (int i = 0; i < allAuthors.size(); i++) {
 				AuthorResponse author = new AuthorResponse();
 				author.setId(allAuthors.get(i).getId());
+				author.setUuid(allAuthors.get(i).getUuid());
 				author.setFirstName(allAuthors.get(i).getFirstname());
 				author.setLastName(allAuthors.get(i).getLastname());
 				author.setCoverBytes(getBytesFromFile(new File(
@@ -152,6 +156,7 @@ public class ApiController {
 				for (int j = 0; j < allBooks.size(); j++) {
 					BookResponse book = new BookResponse();
 					book.setId(allBooks.get(j).getId());
+					book.setUuid(allBooks.get(j).getUuid());
 					book.setTitle(allBooks.get(j).getTitle());
 					book.setCoverBytes(getBytesFromFile(new File(
 							(allBooks.get(j).getImage() != null) ? allBooks.get(j).getImage() : DEFAULT_IMAGE)));
@@ -169,6 +174,7 @@ public class ApiController {
 					for (int z = 0; z < citationByBook.size(); z++) {
 						CitationResponse citation = new CitationResponse();
 						citation.setId(citationByBook.get(z).getId());
+						citation.setUuid(citationByBook.get(z).getUuid());
 						citation.setCitation(citationByBook.get(z).getCitation());
 						citation.setLiked(citationByBook.get(z).getLiked());
 						citation.setDate(citationByBook.get(z).getDate());
@@ -212,8 +218,6 @@ public class ApiController {
 				throw new IOException("Could not completely read file" + file.getName());
 			}
 			is.close();
-
-			// byteImage = new String(bytes, "UTF-8");
 
 		} catch (IOException e) {
 			e.printStackTrace();

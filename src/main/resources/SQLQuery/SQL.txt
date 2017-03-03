@@ -1,12 +1,13 @@
 CREATE DATABASE navigation DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-CREATE TABLE authors (id bigint(255) NOT NULL AUTO_INCREMENT PRIMARY KEY, image varchar(255), firstname VARCHAR(255),
+CREATE TABLE authors (id bigint(255) NOT NULL AUTO_INCREMENT PRIMARY KEY, uuid varchar(255), image varchar(255), firstname VARCHAR(255),
  lastname VARCHAR(255), biography TEXT, date VARCHAR(255), has_synchronized int (10));
-CREATE TABLE books (id bigint(255) NOT NULL AUTO_INCREMENT PRIMARY KEY, image VARCHAR(255), title VARCHAR(255), genre VARCHAR(255),
-series VARCHAR(255), seriesNum int(10) DEFAULT 0, description TEXT, rating int(10), date VARCHAR(255), author VARCHAR(255), author_id int(10));
-CREATE TABLE citations (id bigint(255) NOT NULL AUTO_INCREMENT PRIMARY KEY, citation TEXT,
- date VARCHAR(255), author VARCHAR(255), author_id int(10), book VARCHAR(255), book_id int(10), has_synchronized int (10), has_synchronized int (10));
-CREATE TABLE reading_list(id bigint(255) NOT NULL AUTO_INCREMENT PRIMARY KEY, book_title VARCHAR(255),
+CREATE TABLE books (id bigint(255) NOT NULL AUTO_INCREMENT PRIMARY KEY, uuid varchar(255), image VARCHAR(255), title VARCHAR(255), genre VARCHAR(255),
+series VARCHAR(255), seriesNum int(10) DEFAULT 0, description TEXT, rating int(10), status int (10) default 0, in_list int (10) default 0,
+date VARCHAR(255), author VARCHAR(255), author_id int(10), has_synchronized int (10) default 0);
+CREATE TABLE citations (id bigint(255) NOT NULL AUTO_INCREMENT PRIMARY KEY, uuid varchar(255), citation TEXT,
+ date VARCHAR(255), author VARCHAR(255), author_id int(10), book VARCHAR(255), book_id int(10), liked int (10) default 0, has_synchronized int (10));
+CREATE TABLE reading_list(id bigint(255) NOT NULL AUTO_INCREMENT PRIMARY KEY, uuid varchar(255), book_title VARCHAR(255),
 book_id bigint(255), author VARCHAR(255), author_id bigint(255), pick int(10) default 0);
 
 
@@ -37,3 +38,7 @@ ALTER TABLE navigation.authos ADD COLUMN date VARCHAR (255) AFTER biography;
 ALTER TABLE navigation.authors ADD column has_synchronized int (10) default 0;
 ALTER TABLE navigation.books ADD column has_synchronized int (10) default 0;
 ALTER TABLE navigation.citations ADD column has_synchronized int (10) default 0;
+
+ALTER TABLE navigation.authors ADD column uuid varchar (255);
+ALTER TABLE navigation.books ADD column uuid varchar (255);
+ALTER TABLE navigation.citations ADD column uuid varchar (255);

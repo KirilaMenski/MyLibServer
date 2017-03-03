@@ -15,6 +15,8 @@ public class Book {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private long id;
+	@Column(name = "uuid")
+	private String uuid;
 	@Column(name = "image")
 	private String image;
 	@Column(name = "title")
@@ -44,10 +46,11 @@ public class Book {
 
 	}
 
-	public Book(long id, String image, String title, String description, int rating, String author, long author_id,
+	public Book(long id, String uuid, String image, String title, String description, int rating, String author, long author_id,
 			int status, int inList, String genre, String series, int seriesNum, int hasSynchronized) {
 		super();
 		this.id = id;
+		this.uuid = uuid;
 		this.image = image;
 		this.title = title;
 		this.description = description;
@@ -68,6 +71,14 @@ public class Book {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 
 	public String getImage() {

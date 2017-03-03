@@ -5,6 +5,7 @@ import java.util.List;
 public class AuthorResponse {
 
 	private long id;
+	private String uuid;
 	private String coverBytes;
 	private String firstName;
 	private String lastName;
@@ -17,10 +18,11 @@ public class AuthorResponse {
 		
 	}
 
-	public AuthorResponse(long id, String coverBytes, String firstName, String lastName, String biography, String date,
+	public AuthorResponse(long id, String uuid, String coverBytes, String firstName, String lastName, String biography, String date,
 			int hasSynchronized, List<BookResponse> books) {
 		super();
 		this.id = id;
+		this.uuid = uuid;
 		this.coverBytes = coverBytes;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -36,6 +38,18 @@ public class AuthorResponse {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
+	public int getHasSynchronized() {
+		return hasSynchronized;
 	}
 
 	public String getCoverBytes() {
