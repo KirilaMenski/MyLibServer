@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -76,6 +77,8 @@ public class AuthorController {
 		Upload.doUpload(multipartFile, "authors");
 		try {
 			author.setImage(Upload.path.toString());
+			author.setUuid(UUID.randomUUID().toString());
+			author.setHasSynchronized(0);
 			authorServ.addAuthor(author);
 		} catch (SQLException e) {
 			LOG.error("Cannot add author!", e);
@@ -93,16 +96,16 @@ public class AuthorController {
 		author_id = id;
 		try {
 			author = authorServ.getAuthorById(id);
-//			authorBooks = linkAB.getBooksByAuthorName(id);
+			// authorBooks = linkAB.getBooksByAuthorName(id);
 			books = bookSer.getBookByAuthorId(id);
-			for(int i = 0 ; i < books.size(); i++){
+			for (int i = 0; i < books.size(); i++) {
 				System.out.println("id: " + books.get(i).getAuthor_id());
 			}
 		} catch (SQLException e) {
 			LOG.error("Cannot view author by name", e);
 		}
-		
-//		mav.addObject("author_books", authorBooks);
+
+		// mav.addObject("author_books", authorBooks);
 		mav.addObject("author_books", books);
 		mav.addObject("author", author);
 		mav.setViewName("view_author");
@@ -116,7 +119,15 @@ public class AuthorController {
 		Upload.doUpload(multipartFile, "books");
 		try {
 			book.setImage(Upload.path.toString());
+			book.setHasSynchronized(0);
+			book.setUuid(UUID.randomUUID().toString());
 			bookSer.addBook(book);
+
+			Author author = authorServ.getAuthorById(author_id);
+			author.setId(author_id);
+			author.setImage(author.getImage());
+			author.setHasSynchronized(0);
+			authorServ.editAuthor(author);
 			addAuthorBooksLinks();
 		} catch (SQLException e) {
 			LOG.error("Cannot add book!", e);
@@ -146,8 +157,12 @@ public class AuthorController {
 		ModelAndView mav = new ModelAndView();
 		Upload.doUpload(multipartFile, "authors");
 		try {
+			Author currentAuthor = authorServ.getAuthorById(id);
 			author.setId(id);
+			author.setUuid(currentAuthor.getUuid());
+			System.out.println("uuid: " + author.getUuid());
 			author.setImage(Upload.path.toString());
+			author.setHasSynchronized(0);
 			authorServ.editAuthor(author);
 		} catch (SQLException e) {
 			LOG.error("Cannot update author", e);

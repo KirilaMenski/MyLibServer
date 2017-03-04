@@ -136,49 +136,62 @@ public class ApiController {
 		user.setPassword("12345");
 		user.setCoverBytes("");
 		try {
-			List<Author> allAuthors = authorService.getAllAuthors();
+			List<Author> allAuthors = authorService.getUnSynchAuthors();
 			List<AuthorResponse> authors = new ArrayList<>();
 			for (int i = 0; i < allAuthors.size(); i++) {
+				Author currentAuthor = allAuthors.get(i);
 				AuthorResponse author = new AuthorResponse();
-				author.setId(allAuthors.get(i).getId());
-				author.setUuid(allAuthors.get(i).getUuid());
-				author.setFirstName(allAuthors.get(i).getFirstname());
-				author.setLastName(allAuthors.get(i).getLastname());
+				author.setId(currentAuthor.getId());
+				author.setUuid(currentAuthor.getUuid());
+				author.setFirstName(currentAuthor.getFirstname());
+				author.setLastName(currentAuthor.getLastname());
 				author.setCoverBytes(getBytesFromFile(new File(
-						(allAuthors.get(i).getImage() != null) ? allAuthors.get(i).getImage() : DEFAULT_IMAGE)));
-				author.setBiography(allAuthors.get(i).getBiography());
-				author.setDate(allAuthors.get(i).getDate());
-				author.setHasSynchronized(1);
+						(currentAuthor.getImage() != null) ? currentAuthor.getImage() : DEFAULT_IMAGE)));
+				author.setBiography(currentAuthor.getBiography());
+				author.setDate(currentAuthor.getDate());
+				
+				currentAuthor.setId(currentAuthor.getId());
+				currentAuthor.setHasSynchronized(1);
+				authorService.editAuthor(currentAuthor);
 
 				List<Book> allBooks = bookService.getBookByAuthorId(author.getId(), 0);
 				List<BookResponse> books = new ArrayList<>();
 
 				for (int j = 0; j < allBooks.size(); j++) {
+					Book currentBook = allBooks.get(j);
 					BookResponse book = new BookResponse();
-					book.setId(allBooks.get(j).getId());
-					book.setUuid(allBooks.get(j).getUuid());
-					book.setTitle(allBooks.get(j).getTitle());
+					book.setId(currentBook.getId());
+					book.setUuid(currentBook.getUuid());
+					book.setTitle(currentBook.getTitle());
 					book.setCoverBytes(getBytesFromFile(new File(
-							(allBooks.get(j).getImage() != null) ? allBooks.get(j).getImage() : DEFAULT_IMAGE)));
-					book.setDescription(allBooks.get(j).getDescription());
-					book.setGenre(allBooks.get(j).getGenre());
-					book.setInList(allBooks.get(j).getInList());
-					book.setWasRead(allBooks.get(j).getStatus());
-					book.setSeries(allBooks.get(j).getSeries());
-					book.setNumSeries(allBooks.get(j).getSeriesNum());
-					book.setHasSynchronized(1);
+							(currentBook.getImage() != null) ? currentBook.getImage() : DEFAULT_IMAGE)));
+					book.setDescription(currentBook.getDescription());
+					book.setGenre(currentBook.getGenre());
+					book.setInList(currentBook.getInList());
+					book.setWasRead(currentBook.getStatus());
+					book.setSeries(currentBook.getSeries());
+					book.setNumSeries(currentBook.getSeriesNum());
 					book.setRating(allBooks.get(j).getRating());
+					
+					currentBook.setId(currentBook.getId());
+					currentBook.setHasSynchronized(1);
+					bookService.editBook(currentBook);
 
 					List<Citation> citationByBook = citationService.getCitationByBookId(book.getId(), 0);
 					List<CitationResponse> citations = new ArrayList<>();
 					for (int z = 0; z < citationByBook.size(); z++) {
+						Citation currentCitation = citationByBook.get(z);
 						CitationResponse citation = new CitationResponse();
-						citation.setId(citationByBook.get(z).getId());
-						citation.setUuid(citationByBook.get(z).getUuid());
-						citation.setCitation(citationByBook.get(z).getCitation());
-						citation.setLiked(citationByBook.get(z).getLiked());
-						citation.setDate(citationByBook.get(z).getDate());
+						citation.setId(currentCitation.getId());
+						citation.setUuid(currentCitation.getUuid());
+						citation.setCitation(currentCitation.getCitation());
+						citation.setLiked(currentCitation.getLiked());
+						citation.setDate(currentCitation.getDate());
 						citations.add(citation);
+						
+						currentCitation.setId(currentCitation.getId());
+						currentCitation.setHasSynchronized(1);
+						citationService.editCitation(currentCitation);
 					}
 					book.setCitations(citations);
 					books.add(book);

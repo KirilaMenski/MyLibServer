@@ -91,7 +91,8 @@ public class AuthorDAOImpl implements AuthorDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Author> getUnSynchAuthors() throws SQLException {
-		List<Author> allAuthors = currentSession().createQuery("FROM a Author WHERE a.hasSynchronized = :has_synchronized")
+		List<Author> allAuthors = currentSession()
+				.createQuery("SELECT a FROM Author a WHERE a.hasSynchronized = :has_synchronized")
 				.setParameter("has_synchronized", 0).list();
 		return allAuthors;
 	}

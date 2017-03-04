@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,9 +22,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import by.ansgar.navigation.dao.impl.BookDAOImpl;
+import by.ansgar.navigation.entity.Author;
 import by.ansgar.navigation.entity.Book;
 import by.ansgar.navigation.entity.Citation;
 import by.ansgar.navigation.entity.LinkBookCitations;
+import by.ansgar.navigation.service.AuthorService;
 import by.ansgar.navigation.service.BookService;
 import by.ansgar.navigation.service.CitationService;
 import by.ansgar.navigation.service.LinkBookCitationsService;
@@ -35,6 +38,8 @@ public class BookController {
 
 	private static final Logger LOG = Logger.getLogger(BookController.class);
 
+	@Autowired
+	private AuthorService authorService;
 	@Autowired
 	private BookService bookService;
 	@Autowired
@@ -102,8 +107,24 @@ public class BookController {
 			citation.setDate(DateCalendar.day + "." + DateCalendar.month + "."
 					+ DateCalendar.year + ":" + DateCalendar.hour + "."
 					+ DateCalendar.min);
+			citation.setUuid(UUID.randomUUID().toString());
+			citation.setHasSynchronized(0);
 			citationService.addCitation(citation);
 			addBookCitationsLink();
+			
+			Book book = bookService.getBookById(book_id);
+			book.setId(book_id);
+			book.setImage(book.getImage());
+			book.setUuid(book.getUuid());
+			book.setHasSynchronized(0);
+			bookService.editBook(book);
+			
+			Author author = authorService.getAuthorById(book.getAuthor_id());
+			author.setId(book.getAuthor_id());
+			author.setImage(author.getImage());
+			author.setUuid(author.getUuid());
+			author.setHasSynchronized(0);
+			authorService.editAuthor(author);
 		} catch (SQLException e) {
 			LOG.error("Cannot add citation!", e);
 		}
@@ -123,6 +144,13 @@ public class BookController {
 			book.setId(id);
 			book.setImage(Upload.path.toString());
 			bookService.editBook(book);
+			
+			Author author = authorService.getAuthorById(book.getAuthor_id());
+			author.setId(book.getAuthor_id());
+			author.setImage(author.getImage());
+			author.setUuid(author.getUuid());
+			author.setHasSynchronized(0);
+			authorService.editAuthor(author);
 		} catch (SQLException e) {
 			LOG.error("Cannot update the book!", e);
 		}
@@ -154,11 +182,20 @@ public class BookController {
 			book.setAuthor_id(book.getAuthor_id());
 			book.setDescription(book.getDescription());
 			book.setImage(book.getImage());
+			book.setUuid(book.getUuid());
 			book.setInList(book.getInList());
 			book.setStatus(book.getStatus());
 			book.setTitle(book.getTitle());
 			book.setRating(rating);
+			book.setHasSynchronized(0);
 			bookService.editBook(book);
+			
+			Author author = authorService.getAuthorById(book.getAuthor_id());
+			author.setId(book.getAuthor_id());
+			book.setUuid(book.getUuid());
+			author.setImage(author.getImage());
+			author.setHasSynchronized(0);
+			authorService.editAuthor(author);
 		} catch (SQLException e) {
 			LOG.error("Can not like book!", e);
 		}
