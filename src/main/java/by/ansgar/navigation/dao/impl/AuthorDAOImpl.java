@@ -37,22 +37,19 @@ public class AuthorDAOImpl implements AuthorDAO {
 		currentSession().delete(author);
 
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Author> getAllAuthors() throws SQLException {
-		List<Author> allAuthors = currentSession().createQuery("FROM Author")
-				.list();
+		List<Author> allAuthors = currentSession().createQuery("FROM Author").list();
 		return allAuthors;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Author> getAllAuthors(int page) throws SQLException {
-		List<Author> authors = currentSession()
-				.createQuery("SELECT a FROM Author a ORDER BY a.lastname")
-				.setFirstResult(page * MAX_RES - MAX_RES).setMaxResults(MAX_RES)
-				.list();
+		List<Author> authors = currentSession().createQuery("SELECT a FROM Author a ORDER BY a.lastname")
+				.setFirstResult(page * MAX_RES - MAX_RES).setMaxResults(MAX_RES).list();
 		return authors;
 	}
 
@@ -60,18 +57,15 @@ public class AuthorDAOImpl implements AuthorDAO {
 	@Override
 	public List<Author> getLastAdded() throws SQLException {
 		List<Author> allAuthors = getAllAuthors();
-		List<Author> lastAuthors = currentSession()
-				.createQuery("FROM Author")
-				.setFirstResult(allAuthors.size() - LAST_AUTHOR)
-				.setMaxResults(LAST_AUTHOR).list();
+		List<Author> lastAuthors = currentSession().createQuery("FROM Author")
+				.setFirstResult(allAuthors.size() - LAST_AUTHOR).setMaxResults(LAST_AUTHOR).list();
 		return lastAuthors;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Author> searchAuthors(String name) throws SQLException {
-		List<Author> authors = currentSession()
-				.createQuery("SELECT a FROM Author a WHERE a.lastname = :name")
+		List<Author> authors = currentSession().createQuery("SELECT a FROM Author a WHERE a.lastname = :name")
 				.setParameter("name", name).list();
 		return authors;
 	}
@@ -87,7 +81,7 @@ public class AuthorDAOImpl implements AuthorDAO {
 		Session currentSession = sessionFactory.getCurrentSession();
 		return currentSession;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Author> getUnSynchAuthors() throws SQLException {
@@ -95,6 +89,17 @@ public class AuthorDAOImpl implements AuthorDAO {
 				.createQuery("SELECT a FROM Author a WHERE a.hasSynchronized = :has_synchronized")
 				.setParameter("has_synchronized", 0).list();
 		return allAuthors;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Author getAuthorByUuid(String uuid) throws SQLException {
+		List<Author> authors = currentSession().createQuery("SELECT a FROM Author a WHERE a.uuid = :uuid")
+				.setParameter("uuid", uuid).list();
+		if (authors.size() > 0) {
+			return authors.get(0);
+		}
+		return null;
 	}
 
 }

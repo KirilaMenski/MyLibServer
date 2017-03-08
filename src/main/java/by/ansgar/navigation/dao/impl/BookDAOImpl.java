@@ -85,9 +85,7 @@ public class BookDAOImpl implements BookDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Book> getBookByAuthorId(long authorId) throws SQLException {
-		List<Book> book = currentSession()
-				.createQuery(
-						"SELECT b FROM Book b WHERE b.author_id =:author_id")
+		List<Book> book = currentSession().createQuery("SELECT b FROM Book b WHERE b.author_id =:author_id")
 				.setParameter("author_id", authorId).list();
 		return book;
 	}
@@ -100,6 +98,17 @@ public class BookDAOImpl implements BookDAO {
 						"SELECT b FROM Book b WHERE b.author_id =:author_id AND b.hasSynchronized =:has_synchronized")
 				.setParameter("author_id", authorId).setParameter("has_synchronized", sync).list();
 		return book;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Book getBookByUuid(String uuid) throws SQLException {
+		List<Book> books = currentSession().createQuery("SELECT b FROM Book b WHERE b.uuid = :uuid")
+				.setParameter("uuid", uuid).list();
+		if (books.size() > 0) {
+			return books.get(0);
+		}
+		return null;
 	}
 
 }

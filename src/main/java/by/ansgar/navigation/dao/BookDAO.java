@@ -16,15 +16,17 @@ public interface BookDAO {
 	public Book getBookById(long id) throws SQLException;
 
 	public List<Book> getAllBook() throws SQLException;
-	
+
 	public List<Book> getAllBook(int page) throws SQLException;
-	
+
 	public List<Book> getBookByAuthorId(long id, int sync) throws SQLException;
-	
+
 	public List<Book> getBookByAuthorId(long id) throws SQLException;
-	
-	public List<Book> getLastAdded () throws SQLException;
-	
+
+	public List<Book> getLastAdded() throws SQLException;
+
 	public List<Book> searchBook(String title) throws SQLException;
+
+	public Book getBookByUuid(String uuid) throws SQLException;
 
 }

@@ -72,6 +72,12 @@ public class AuthorServiceImpl implements AuthorService{
 		return authos;
 	}
 
+	@Transactional
+	public Author getAuthorByUuid(String uuid) throws SQLException {
+		Author author = authorDAO.getAuthorByUuid(uuid);
+		return author;
+	}
+
 	
 
 }

@@ -27,4 +27,6 @@ public interface BookService {
 	
 	public List<Book> searchBook(String title) throws SQLException;
 	
+	public Book getBookByUuid (String uuid) throws SQLException;
+	
 }

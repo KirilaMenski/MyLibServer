@@ -57,11 +57,16 @@ public class ApiController {
 	@RequestMapping(value = PATH + "save", method = RequestMethod.POST)
 	@ResponseBody
 	public ServerResponse setUserData(@RequestBody User user) {
-		if(user == null) return new ServerResponse("User not found");
+		if (user == null)
+			return new ServerResponse("User not found");
 		try {
 			List<AuthorResponse> authorResponse = user.getAuthors();
 			for (int i = 0; i < authorResponse.size(); i++) {
+
+				Author currentAuthor = authorService.getAuthorByUuid(authorResponse.get(i).getUuid());
 				Author author = new Author();
+				if (currentAuthor != null)
+					author = currentAuthor;
 				String authorName = authorResponse.get(i).getFirstName() + " " + authorResponse.get(i).getLastName();
 				author.setUuid(authorResponse.get(i).getUuid());
 				author.setFirstname(authorResponse.get(i).getFirstName());
@@ -71,12 +76,21 @@ public class ApiController {
 				author.setHasSynchronized(1);
 				author.setImage(Upload.convertAndSaveImage(authorResponse.get(i).getCoverBytes(),
 						authorResponse.get(i).getFirstName() + authorResponse.get(i).getLastName(), "authors"));
-				authorService.addAuthor(author);
+				if (currentAuthor != null) {
+					authorService.editAuthor(author);
+				} else {
+					authorService.addAuthor(author);
+				}
+
 				List<BookResponse> bookResponse = authorResponse.get(i).getBooks();
 				for (int j = 0; j < bookResponse.size(); j++) {
 					long authorId = authorService.getAllAuthors().get(authorService.getAllAuthors().size() - 1).getId();
 					String bookTitle = bookResponse.get(j).getTitle();
+
+					Book currentBook = bookService.getBookByUuid(bookResponse.get(j).getUuid());
 					Book book = new Book();
+					if (currentBook != null)
+						book = currentBook;
 					book.setUuid(bookResponse.get(j).getUuid());
 					book.setAuthor_id(authorId);
 					book.setAuthor(authorName);
@@ -89,14 +103,21 @@ public class ApiController {
 					book.setRating(bookResponse.get(j).getRating());
 					book.setHasSynchronized(1);
 					book.setStatus(bookResponse.get(j).getWasRead());
-					book.setImage(Upload.convertAndSaveImage(bookResponse.get(j).getCoverBytes(),
-							bookTitle, "books"));
-					bookService.addBook(book);
+					book.setImage(Upload.convertAndSaveImage(bookResponse.get(j).getCoverBytes(), bookTitle, "books"));
+					if (currentBook != null) {
+						bookService.editBook(book);
+					} else {
+						bookService.addBook(book);
+					}
 					addAuthorBooksLinks(authorId);
 					List<CitationResponse> citationResponse = bookResponse.get(j).getCitations();
 					for (int z = 0; z < citationResponse.size(); z++) {
 						long bookId = bookService.getAllBook().get(bookService.getAllBook().size() - 1).getId();
+
+						Citation currentCitation = citationService.getCitationByUuid(citationResponse.get(z).getUuid());
 						Citation citation = new Citation();
+						if (currentCitation != null)
+							citation = currentCitation;
 						citation.setUuid(citationResponse.get(z).getUuid());
 						citation.setAuthor(authorName);
 						citation.setAuthor_id(authorId);
@@ -106,7 +127,11 @@ public class ApiController {
 						citation.setCitation(citationResponse.get(z).getCitation());
 						citation.setDate(citationResponse.get(z).getDate());
 						citation.setLiked(citationResponse.get(z).getLiked());
-						citationService.addCitation(citation);
+						if (currentCitation != null) {
+							citationService.editCitation(citation);
+						} else {
+							citationService.addCitation(citation);
+						}
 						addBookCitationsLink(bookId);
 					}
 				}
@@ -145,11 +170,11 @@ public class ApiController {
 				author.setUuid(currentAuthor.getUuid());
 				author.setFirstName(currentAuthor.getFirstname());
 				author.setLastName(currentAuthor.getLastname());
-				author.setCoverBytes(getBytesFromFile(new File(
-						(currentAuthor.getImage() != null) ? currentAuthor.getImage() : DEFAULT_IMAGE)));
+				author.setCoverBytes(getBytesFromFile(
+						new File((currentAuthor.getImage() != null) ? currentAuthor.getImage() : DEFAULT_IMAGE)));
 				author.setBiography(currentAuthor.getBiography());
 				author.setDate(currentAuthor.getDate());
-				
+
 				currentAuthor.setId(currentAuthor.getId());
 				currentAuthor.setHasSynchronized(1);
 				authorService.editAuthor(currentAuthor);
@@ -163,8 +188,8 @@ public class ApiController {
 					book.setId(currentBook.getId());
 					book.setUuid(currentBook.getUuid());
 					book.setTitle(currentBook.getTitle());
-					book.setCoverBytes(getBytesFromFile(new File(
-							(currentBook.getImage() != null) ? currentBook.getImage() : DEFAULT_IMAGE)));
+					book.setCoverBytes(getBytesFromFile(
+							new File((currentBook.getImage() != null) ? currentBook.getImage() : DEFAULT_IMAGE)));
 					book.setDescription(currentBook.getDescription());
 					book.setGenre(currentBook.getGenre());
 					book.setInList(currentBook.getInList());
@@ -172,7 +197,7 @@ public class ApiController {
 					book.setSeries(currentBook.getSeries());
 					book.setNumSeries(currentBook.getSeriesNum());
 					book.setRating(allBooks.get(j).getRating());
-					
+
 					currentBook.setId(currentBook.getId());
 					currentBook.setHasSynchronized(1);
 					bookService.editBook(currentBook);
@@ -188,7 +213,7 @@ public class ApiController {
 						citation.setLiked(currentCitation.getLiked());
 						citation.setDate(currentCitation.getDate());
 						citations.add(citation);
-						
+
 						currentCitation.setId(currentCitation.getId());
 						currentCitation.setHasSynchronized(1);
 						citationService.editCitation(currentCitation);

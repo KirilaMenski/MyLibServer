@@ -78,4 +78,10 @@ public class CitationServiceImpl implements CitationService {
 		return citations;
 	}
 
+	@Transactional
+	public Citation getCitationByUuid(String uuid) throws SQLException {
+		Citation citation = citationDAO.getCitationByUuid(uuid);
+		return citation;
+	}
+
 }

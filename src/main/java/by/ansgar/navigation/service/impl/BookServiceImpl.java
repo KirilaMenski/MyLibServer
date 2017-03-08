@@ -79,5 +79,11 @@ public class BookServiceImpl implements BookService {
 		return books;
 	}
 
+	@Transactional
+	public Book getBookByUuid(String uuid) throws SQLException {
+		Book book = bookDAO.getBookByUuid(uuid);
+		return book;
+	}
+
 	
 }
